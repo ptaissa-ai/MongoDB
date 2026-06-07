@@ -1,0 +1,185 @@
+# Comandos MongoDB Abordados na Aula Teórica
+
+## Introdução
+
+Este documento apresenta os principais comandos do MongoDB estudados durante as aulas teóricas. Os comandos estão organizados de acordo com as operações básicas de gerenciamento, inserção, consulta, atualização e remoção de dados.
+
+---
+
+## 1. Conexão e Gerenciamento do Ambiente
+
+### `mongo`
+
+Inicia o Mongo Shell, permitindo a conexão e interação com uma instância do MongoDB.
+
+### `show dbs`
+
+Exibe todos os bancos de dados disponíveis na instância do MongoDB.
+
+### `use <nome_do_banco>`
+
+Seleciona um banco de dados para utilização. Caso o banco não exista, ele será criado automaticamente quando o primeiro documento for inserido.
+
+**Exemplo:**
+
+```javascript
+use ifsp
+```
+
+### `db`
+
+Mostra o nome do banco de dados atualmente selecionado.
+
+### `show collections`
+
+Lista todas as coleções existentes no banco de dados ativo.
+
+---
+
+## 2. Inserção de Dados
+
+### `var <nome> = { ... }`
+
+Cria uma variável JavaScript contendo um documento que poderá ser armazenado no banco de dados.
+
+**Exemplo:**
+
+```javascript
+var contato = {
+    "nome": "Fabio",
+    "telefone": "99999-9999"
+}
+```
+
+### `db.<colecao>.insertOne(documento)`
+
+Insere um único documento em uma coleção.
+
+**Exemplo:**
+
+```javascript
+db.contatos.insertOne(contato)
+```
+
+---
+
+## 3. Consulta de Dados
+
+### `db.<colecao>.find()`
+
+Retorna todos os documentos armazenados em uma coleção.
+
+**Exemplo:**
+
+```javascript
+db.contatos.find()
+```
+
+### `db.<colecao>.findOne()`
+
+Retorna apenas o primeiro documento encontrado na coleção.
+
+---
+
+## 4. Atualização de Dados
+
+### `db.<colecao>.update(filtro, modificacao)`
+
+Atualiza documentos que atendem ao filtro informado.
+
+**Exemplo:**
+
+```javascript
+db.contatos.update(
+    { "nome": "Fabio" },
+    { $set: { "telefone": "11111-1111" } }
+)
+```
+
+### `$set`
+
+Operador utilizado para alterar ou adicionar campos específicos sem substituir todo o documento.
+
+---
+
+## 5. Remoção de Dados
+
+### `db.<colecao>.remove(filtro)`
+
+Remove documentos que atendem ao filtro especificado.
+
+---
+
+## 6. Operadores de Comparação
+
+### `$gt`
+
+Retorna documentos cujo valor do campo seja maior que o valor informado.
+
+### `$gte`
+
+Retorna documentos cujo valor do campo seja maior ou igual ao valor informado.
+
+### `$lt`
+
+Retorna documentos cujo valor do campo seja menor que o valor informado.
+
+### `$lte`
+
+Retorna documentos cujo valor do campo seja menor ou igual ao valor informado.
+
+### `$or`
+
+Operador lógico utilizado para combinar múltiplas condições de consulta.
+
+**Exemplo:**
+
+```javascript
+db.contatos.find({
+    $or: [
+        { idade: { $lt: 18 } },
+        { idade: { $gt: 60 } }
+    ]
+})
+```
+
+### `/^texto/`
+
+Expressão regular utilizada para realizar buscas textuais.
+
+**Exemplo:**
+
+```javascript
+db.contatos.find({
+    nome: /^F/
+})
+```
+
+O exemplo acima retorna todos os registros cujo nome começa com a letra "F".
+
+---
+
+## 7. Ordenação e Limitação de Resultados
+
+### `.limit(numero)`
+
+Limita a quantidade de documentos retornados em uma consulta.
+
+**Exemplo:**
+
+```javascript
+db.contatos.find().limit(5)
+```
+
+### `.sort({ campo: 1 ou -1 })`
+
+Ordena os resultados de uma consulta.
+
+* `1` → ordem crescente
+* `-1` → ordem decrescente
+
+**Exemplo:**
+
+```javascript
+db.contatos.find().sort({ nome: 1 })
+```
